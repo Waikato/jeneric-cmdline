@@ -85,6 +85,14 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.github.waikato</groupId>
+      <artifactId>jclasslocator</artifactId>
+      <version>0.0.4</version>
+    </dependency>
+  </dependencies>
+
   <scm>
     <connection>scm:git:https://github.com/waikato/jeneric-cmdline</connection>
     <developerConnection>scm:git:https://github.com/waikato/jeneric-cmdline</developerConnection>
