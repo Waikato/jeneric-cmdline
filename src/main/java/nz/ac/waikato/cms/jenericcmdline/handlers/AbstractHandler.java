@@ -21,8 +21,10 @@
 package nz.ac.waikato.cms.jenericcmdline.handlers;
 
 import nz.ac.waikato.cms.jenericcmdline.core.JCClassLister;
+import nz.ac.waikato.cms.locator.LoggingHelper;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 /**
  * Ancestor for handlers.
@@ -32,6 +34,22 @@ import java.io.Serializable;
  */
 public abstract class AbstractHandler
   implements Serializable, Handler{
+
+  /** for logging. */
+  protected Logger m_Logger;
+
+  /**
+   * Returns the logger in use.
+   *
+   * @return		the logger
+   */
+  protected Logger getLogger() {
+    if (m_Logger == null) {
+      m_Logger = Logger.getLogger(getClass().getName());
+      m_Logger.setLevel(LoggingHelper.getLevel(getClass()));
+    }
+    return m_Logger;
+  }
 
   /**
    * Checks whether the object can be handled.
