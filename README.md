@@ -1,11 +1,33 @@
 # jeneric-commandline
 
-Java library for adding command-line handling to arbitrary classes, via introspection. 
+Java library for adding command-line handling to arbitrary classes, via 
+introspection.
+
+If a public get/set method exists for a property, then this will automatically
+get exposed via a command-line option.
+
+Types supported by handlers (`nz.ac.waikato.cms.jenericcmdline.handlers.Handler`):
+* boolean
+* byte
+* short
+* int
+* long
+* float
+* double
+* string
+
+Traversal of nested objects that aren't covered by one of the above handlers,
+is possible as well and depends on the traversal policy 
+(`nz.ac.waikato.cms.jenericcmdline.traversal.Traverser`). Currently available:
+* All -- traverse all objects
+* SpecificClasses -- traverses only the specified classes
+
 
 ## Example
 
 ```java
 import nz.ac.waikato.cms.jenericcmdline.DefaultProcessor;
+import nz.ac.waikato.cms.jenericcmdline.traversal.All;
 import nz.ac.waikato.cms.jenericcmdline.example.Simple;
 import nz.ac.waikato.cms.jenericcmdline.example.Nested;
 
@@ -37,6 +59,7 @@ nested.setIntegral(1234);
 
 // cmdline generation and parsing
 DefaultProcessor processor = new DefaultProcessor();
+processor.setTraverser(new All())
 String cmdline;
 
 System.out.println("\nSimple");
