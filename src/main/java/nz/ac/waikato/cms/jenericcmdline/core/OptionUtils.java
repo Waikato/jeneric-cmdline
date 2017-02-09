@@ -263,4 +263,30 @@ public class OptionUtils {
     }
     return optionString.toString().trim();
   }
+
+  /**
+   * Turns a camel case display name of a property into a commandline flag
+   * that uses lowercase and hyphens.
+   *
+   * @param name	the display name of the property
+   * @return		the flag
+   */
+  public static String displayNameToFlag(String name) {
+    StringBuilder	result;
+    int			i;
+
+    result = new StringBuilder();
+
+    for (i = 0; i < name.length(); i++) {
+      if (Character.isUpperCase(name.charAt(i))) {
+	result.append("-");
+	result.append(Character.toLowerCase(name.charAt(i)));
+      }
+      else {
+	result.append(name.charAt(i));
+      }
+    }
+
+    return result.toString();
+  }
 }
