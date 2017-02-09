@@ -14,27 +14,28 @@
  */
 
 /**
- * Commandline.java
+ * Processor.java
  * Copyright (C) 2017 University of Waikato, Hamilton, NZ
  */
 
 package nz.ac.waikato.cms.jenericcmdline;
 
 /**
- * Interface for classes that handle commandlines.
+ * Interface for classes that process commandlines.
  *
  * @author FracPete (fracpete at waikato dot ac dot nz)
  * @version $Revision$
  */
-public interface Commandline {
+public interface Processor {
 
   /**
    * Turns the object into a commandline.
    *
    * @param obj		the object to convert
    * @return		the commandline, including classname
+   * @throws Exception	if failed to convert
    */
-  public String toCommandline(Object obj);
+  public String toCommandline(Object obj) throws Exception;
 
   /**
    * Turns the commandline back into an object.
@@ -50,8 +51,9 @@ public interface Commandline {
    *
    * @param obj		the object to get the options from
    * @return		the options
+   * @throws Exception	if failed to get options
    */
-  public String[] getOptions(Object obj);
+  public String[] getOptions(Object obj) throws Exception;
 
   /**
    * Sets the options for the object.
