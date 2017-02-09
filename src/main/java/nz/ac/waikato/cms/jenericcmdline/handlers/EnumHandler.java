@@ -14,27 +14,22 @@
  */
 
 /**
- * Handler.java
+ * EnumHandler.java
  * Copyright (C) 2017 University of Waikato, Hamilton, NZ
  */
 
 package nz.ac.waikato.cms.jenericcmdline.handlers;
 
+import nz.ac.waikato.cms.locator.ClassLocator;
+
 /**
- * Interface for commandline handlers.
+ * Handler Enum objects.
  *
  * @author FracPete (fracpete at waikato dot ac dot nz)
  * @version $Revision$
  */
-public interface Handler {
-
-  /**
-   * Checks whether the object can be handled.
-   *
-   * @param obj		the object to check
-   * @return		true if can be handled
-   */
-  public boolean handles(Object obj);
+public class EnumHandler
+  extends AbstractHandler {
 
   /**
    * Checks whether the class can be handled.
@@ -42,7 +37,10 @@ public interface Handler {
    * @param cls		the class to check
    * @return		true if can be handled
    */
-  public boolean handles(Class cls);
+  @Override
+  public boolean handles(Class cls) {
+    return ClassLocator.isSubclass(Enum.class, cls);
+  }
 
   /**
    * Turns the object into its string representation.
@@ -50,7 +48,10 @@ public interface Handler {
    * @param obj		the object to convert
    * @return		the string representation
    */
-  public String toString(Object obj);
+  @Override
+  public String toString(Object obj) {
+    return obj.toString();
+  }
 
   /**
    * Parses the string and turns it back into an object.
@@ -60,5 +61,8 @@ public interface Handler {
    * @return		the generated object
    * @throws Exception	if failed to parse
    */
-  public Object fromString(Class base, String s) throws Exception;
+  @Override
+  public Object fromString(Class base, String s) throws Exception {
+    return Enum.valueOf(base, s);
+  }
 }

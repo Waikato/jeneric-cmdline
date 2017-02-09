@@ -56,12 +56,13 @@ public class ByteHandler
   /**
    * Parses the string and turns it back into an object.
    *
+   * @param base	the base class
    * @param s		the string to parse
    * @return		the generated object
    * @throws Exception	if failed to parse
    */
   @Override
-  public Object fromString(String s) throws Exception {
+  public Object fromString(Class base, String s) throws Exception {
     return Byte.parseByte(s);
   }
 }

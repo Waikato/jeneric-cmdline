@@ -25,6 +25,7 @@ import nz.ac.waikato.cms.jenericcmdline.core.IntrospectionHelper;
 import nz.ac.waikato.cms.jenericcmdline.core.OptionUtils;
 import nz.ac.waikato.cms.jenericcmdline.example.Nested;
 import nz.ac.waikato.cms.jenericcmdline.example.Simple;
+import nz.ac.waikato.cms.jenericcmdline.example.Simple.OneTwoThree;
 import nz.ac.waikato.cms.jenericcmdline.handlers.Handler;
 import nz.ac.waikato.cms.jenericcmdline.traversal.All;
 
@@ -239,11 +240,11 @@ public class DefaultProcessor
 	if (array) {
 	  value = Array.newInstance(base, values.size());
 	  for (i = 0; i < values.size(); i++)
-	    Array.set(value, i, handler.fromString(values.get(i)));
+	    Array.set(value, i, handler.fromString(base, values.get(i)));
 	  desc.getWriteMethod().invoke(obj, value);
 	}
 	else if (values.size() > 0) {
-	  value = handler.fromString(values.get(0));
+	  value = handler.fromString(base, values.get(0));
 	  desc.getWriteMethod().invoke(obj, value);
 	}
       }
@@ -268,6 +269,8 @@ public class DefaultProcessor
     simple.setMoreThanOneTruth(new boolean[]{true, false, true});
     simple.setManyInts(new int[]{1, 2, 3});
     simple.setSomeDoubles(new double[]{0.1, 0.2, 0.3});
+    simple.setOneTwoThree(OneTwoThree.THREE);
+    simple.setMany(new OneTwoThree[]{OneTwoThree.ONE, OneTwoThree.TWO});
 
     Simple simple2 = new Simple();
     simple2.setTruth(false);

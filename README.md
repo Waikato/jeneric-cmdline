@@ -15,6 +15,7 @@ Types supported by handlers (`nz.ac.waikato.cms.jenericcmdline.handlers.Handler`
 * float
 * double
 * string
+* enum
 
 Traversal of nested objects that aren't covered by one of the above handlers,
 is possible as well and depends on the traversal policy 

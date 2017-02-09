@@ -28,6 +28,12 @@ package nz.ac.waikato.cms.jenericcmdline.example;
  */
 public class Simple {
 
+  public enum OneTwoThree {
+    ONE,
+    TWO,
+    THREE
+  }
+
   protected boolean m_Truth;
 
   protected byte m_EightBit;
@@ -47,6 +53,10 @@ public class Simple {
   protected int[] m_ManyInts = new int[0];
 
   protected double[] m_SomeDoubles = new double[0];
+
+  protected OneTwoThree m_OneTwoThree;
+
+  protected OneTwoThree[] m_Many;
 
   public boolean getTruth() {
     return m_Truth;
@@ -126,5 +136,21 @@ public class Simple {
 
   public void setSomeDoubles(double[] someDoubles) {
     m_SomeDoubles = someDoubles;
+  }
+
+  public OneTwoThree getOneTwoThree() {
+    return m_OneTwoThree;
+  }
+
+  public void setOneTwoThree(OneTwoThree oneTwoThree) {
+    m_OneTwoThree = oneTwoThree;
+  }
+
+  public OneTwoThree[] getMany() {
+    return m_Many;
+  }
+
+  public void setMany(OneTwoThree[] many) {
+    m_Many = many;
   }
 }
