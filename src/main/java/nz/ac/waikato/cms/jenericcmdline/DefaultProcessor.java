@@ -125,23 +125,40 @@ public class DefaultProcessor
 
       handler = getHandler(base);
       if (handler == null) {
-	getLogger().info("No handler found for: " + name + "/" + base.getName() + (array ? "[]" : ""));
-	continue;
-      }
-
-      value = desc.getReadMethod().invoke(obj);
-      if (array) {
-	for (i = 0; i < Array.getLength(value); i++) {
-	  result.add("-" + ARRAY_PREFIX + flag);
-	  result.add(handler.toString(Array.get(value, i)));
+	getLogger().fine("No handler found for: " + name + "/" + base.getName() + (array ? "[]" : ""));
+	if (!m_Traverser.canTraverse(cls, base)) {
+	  getLogger().fine("Traversal not possible: " + name + "/" + base.getName() + (array ? "[]" : ""));
+	  continue;
+	}
+	value = desc.getReadMethod().invoke(obj);
+	if (value != null) {
+	  if (array) {
+	    for (i = 0; i < Array.getLength(value); i++) {
+	      result.add("-" + ARRAY_PREFIX + flag);
+	      result.add(toCommandline(Array.get(value, i)));
+	    }
+	  }
+	  else {
+	    result.add("-" + flag);
+	    result.add(toCommandline(value));
+	  }
 	}
       }
       else {
-	result.add("-" + flag);
-	result.add(handler.toString(value));
+	value = desc.getReadMethod().invoke(obj);
+	if (value != null) {
+	  if (array) {
+	    for (i = 0; i < Array.getLength(value); i++) {
+	      result.add("-" + ARRAY_PREFIX + flag);
+	      result.add(handler.toString(Array.get(value, i)));
+	    }
+	  }
+	  else {
+	    result.add("-" + flag);
+	    result.add(handler.toString(value));
+	  }
+	}
       }
-
-      // TODO nested objects
     }
 
     return result.toArray(new String[result.size()]);
@@ -179,19 +196,13 @@ public class DefaultProcessor
       else
 	base = cls;
 
-      handler = getHandler(base);
-      if (handler == null) {
-	getLogger().info("No handler found for: " + name + "/" + base.getName() + (array ? "[]" : ""));
-	continue;
-      }
-
       // collect values
       values = new ArrayList<>();
-      i      = -2;
+      i = -2;
       if (array)
 	search = "-" + ARRAY_PREFIX + flag;
       else
-        search = "-" + flag;
+	search = "-" + flag;
       while (i < options.length - 2) {
 	i += 2;
 	if (options[i].equals(search)) {
@@ -203,19 +214,38 @@ public class DefaultProcessor
 	}
       }
 
-      // convert values
-      if (array) {
-	value = Array.newInstance(base, values.size());
-	for (i = 0; i < values.size(); i++)
-	  Array.set(value, i, handler.fromString(values.get(i)));
-	desc.getWriteMethod().invoke(obj, value);
+      handler = getHandler(base);
+      if (handler == null) {
+	getLogger().fine("No handler found for: " + name + "/" + base.getName() + (array ? "[]" : ""));
+	if (!m_Traverser.canTraverse(cls, base)) {
+	  getLogger().fine("Traversal not possible: " + name + "/" + base.getName() + (array ? "[]" : ""));
+	  continue;
+	}
+	// convert values
+	if (array) {
+	  value = Array.newInstance(base, values.size());
+	  for (i = 0; i < values.size(); i++)
+	    Array.set(value, i, fromCommandline(values.get(i)));
+	  desc.getWriteMethod().invoke(obj, value);
+	}
+	else if (values.size() > 0) {
+	  value = fromCommandline(values.get(0));
+	  desc.getWriteMethod().invoke(obj, value);
+	}
       }
-      else if (values.size() > 0) {
-	value = handler.fromString(values.get(0));
-	desc.getWriteMethod().invoke(obj, value);
+      else {
+	// convert values
+	if (array) {
+	  value = Array.newInstance(base, values.size());
+	  for (i = 0; i < values.size(); i++)
+	    Array.set(value, i, handler.fromString(values.get(i)));
+	  desc.getWriteMethod().invoke(obj, value);
+	}
+	else if (values.size() > 0) {
+	  value = handler.fromString(values.get(0));
+	  desc.getWriteMethod().invoke(obj, value);
+	}
       }
-
-      // TODO nested objects
     }
   }
 

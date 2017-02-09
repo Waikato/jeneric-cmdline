@@ -14,3 +14,7 @@ nz.ac.waikato.cms.jenericcmdline.Processor=\
 # object handlers
 nz.ac.waikato.cms.jenericcmdline.handlers.Handler=\
   nz.ac.waikato.cms.jenericcmdline.handlers
+
+# traversers
+nz.ac.waikato.cms.jenericcmdline.traversal.Traverser=\
+  nz.ac.waikato.cms.jenericcmdline.traversal

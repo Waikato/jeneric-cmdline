@@ -20,8 +20,11 @@
 
 package nz.ac.waikato.cms.jenericcmdline;
 
+import nz.ac.waikato.cms.jenericcmdline.core.JCClassLister;
 import nz.ac.waikato.cms.jenericcmdline.handlers.AbstractHandler;
 import nz.ac.waikato.cms.jenericcmdline.handlers.Handler;
+import nz.ac.waikato.cms.jenericcmdline.traversal.All;
+import nz.ac.waikato.cms.jenericcmdline.traversal.Traverser;
 import nz.ac.waikato.cms.locator.LoggingHelper;
 
 import java.io.Serializable;
@@ -50,6 +53,9 @@ public abstract class AbstractProcessor
   /** the available handlers. */
   protected Handler[] m_Handlers;
 
+  /** the traverser to use. */
+  protected Traverser m_Traverser;
+
   /**
    * Default constructor.
    */
@@ -76,7 +82,8 @@ public abstract class AbstractProcessor
 	getLogger().log(Level.SEVERE, "Failed to instantiate handler: " + cls.getName(), e);
       }
     }
-    m_Handlers = handlers.toArray(new Handler[handlers.size()]);
+    m_Handlers  = handlers.toArray(new Handler[handlers.size()]);
+    m_Traverser = new All();
   }
 
   /**
@@ -90,6 +97,24 @@ public abstract class AbstractProcessor
       m_Logger.setLevel(LoggingHelper.getLevel(getClass()));
     }
     return m_Logger;
+  }
+
+  /**
+   * Sets the traverser to use.
+   *
+   * @param value	the traverser
+   */
+  public void setTraverser(Traverser value) {
+    m_Traverser = value;
+  }
+
+  /**
+   * Returtns the traverser in use.
+   *
+   * @return		the traverser
+   */
+  public Traverser getTraverser() {
+    return m_Traverser;
   }
 
   /**
@@ -131,4 +156,12 @@ public abstract class AbstractProcessor
     return result;
   }
 
+  /**
+   * Returns all the available processors.
+   *
+   * @return 		the processor classes
+   */
+  public static Class[] getProcessors() {
+    return JCClassLister.getSingleton().getClasses(Processor.class);
+  }
 }
