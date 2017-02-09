@@ -42,6 +42,12 @@ public class Simple {
 
   protected double m_QuadrupleHalf;
 
+  protected boolean[] m_MoreThanOneTruth = new boolean[0];
+
+  protected int[] m_ManyInts = new int[0];
+
+  protected double[] m_SomeDoubles = new double[0];
+
   public boolean getTruth() {
     return m_Truth;
   }
@@ -96,5 +102,29 @@ public class Simple {
 
   public void setQuadrupleHalf(double value) {
     m_QuadrupleHalf = value;
+  }
+
+  public boolean[] getMoreThanOneTruth() {
+    return m_MoreThanOneTruth;
+  }
+
+  public void setMoreThanOneTruth(boolean[] moreThanOneTruth) {
+    m_MoreThanOneTruth = moreThanOneTruth;
+  }
+
+  public int[] getManyInts() {
+    return m_ManyInts;
+  }
+
+  public void setManyInts(int[] manyInts) {
+    m_ManyInts = manyInts;
+  }
+
+  public double[] getSomeDoubles() {
+    return m_SomeDoubles;
+  }
+
+  public void setSomeDoubles(double[] someDoubles) {
+    m_SomeDoubles = someDoubles;
   }
 }

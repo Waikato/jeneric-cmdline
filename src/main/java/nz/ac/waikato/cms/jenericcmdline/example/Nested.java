@@ -30,6 +30,8 @@ public class Nested {
 
   protected Simple m_Simple;
 
+  protected Simple[] m_SimpleArray = new Simple[0];
+
   protected int m_Integral;
 
   protected double m_Floating;
@@ -56,5 +58,13 @@ public class Nested {
 
   public void setFloating(double floating) {
     m_Floating = floating;
+  }
+
+  public Simple[] getSimpleArray() {
+    return m_SimpleArray;
+  }
+
+  public void setSimpleArray(Simple[] simpleArray) {
+    m_SimpleArray = simpleArray;
   }
 }
