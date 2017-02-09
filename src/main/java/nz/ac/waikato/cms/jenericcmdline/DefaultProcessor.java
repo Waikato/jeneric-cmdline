@@ -26,6 +26,7 @@ import nz.ac.waikato.cms.jenericcmdline.core.OptionUtils;
 import nz.ac.waikato.cms.jenericcmdline.example.Nested;
 import nz.ac.waikato.cms.jenericcmdline.example.Simple;
 import nz.ac.waikato.cms.jenericcmdline.handlers.Handler;
+import nz.ac.waikato.cms.jenericcmdline.traversal.All;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Array;
@@ -280,6 +281,7 @@ public class DefaultProcessor
     nested.setIntegral(1234);
 
     DefaultProcessor processor = new DefaultProcessor();
+    processor.setTraverser(new All());
     String cmdline;
 
     System.out.println("\nSimple");
