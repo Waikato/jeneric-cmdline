@@ -31,6 +31,9 @@ import nz.ac.waikato.cms.locator.ClassLister;
 public class JCClassLister
   extends ClassLister {
 
+  /** the singleton. */
+  protected static JCClassLister m_Singleton;
+
   /**
    * Initializes the class lister.
    */
