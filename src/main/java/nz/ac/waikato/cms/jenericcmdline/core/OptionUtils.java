@@ -13,7 +13,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
+/*
  * OptionUtils.java
  * Copyright (C) 2017 University of Waikato, Hamilton, NZ
  */
@@ -279,7 +279,8 @@ public class OptionUtils {
 
     for (i = 0; i < name.length(); i++) {
       if (Character.isUpperCase(name.charAt(i))) {
-	result.append("-");
+	if (i > 0)
+	  result.append("-");
 	result.append(Character.toLowerCase(name.charAt(i)));
       }
       else {
