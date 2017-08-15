@@ -26,11 +26,13 @@ import nz.ac.waikato.cms.jenericcmdline.core.OptionUtils;
 import nz.ac.waikato.cms.jenericcmdline.example.Nested;
 import nz.ac.waikato.cms.jenericcmdline.example.Simple;
 import nz.ac.waikato.cms.jenericcmdline.example.Simple.OneTwoThree;
+import nz.ac.waikato.cms.jenericcmdline.example.SimpleDeprecated;
 import nz.ac.waikato.cms.jenericcmdline.handlers.Handler;
 import nz.ac.waikato.cms.jenericcmdline.traversal.All;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,27 @@ public class DefaultProcessor
 
   /** the array prefix. */
   public final static String ARRAY_PREFIX = "array-";
+
+  /** whether to skip deprecated methods. */
+  protected boolean m_SkipDeprecated;
+
+  /**
+   * Sets whether to skip deprecated methods.
+   *
+   * @param value	true if to skip
+   */
+  public void setSkipDeprecated(boolean value) {
+    m_SkipDeprecated = value;
+  }
+
+  /**
+   * Returns whether deprecated methods are skipped.
+   *
+   * @return		true if skipped
+   */
+  public boolean getSkipDeprecated() {
+    return m_SkipDeprecated;
+  }
 
   /**
    * Turns the object into a commandline.
@@ -111,11 +134,22 @@ public class DefaultProcessor
     Handler			handler;
     int				i;
     Object			value;
+    Method			method;
 
     result = new ArrayList<>();
     cont   = IntrospectionHelper.introspect(obj.getClass());
 
     for (PropertyDescriptor desc: cont.properties) {
+      // check for deprecated methods?
+      if (getSkipDeprecated()) {
+        method = desc.getReadMethod();
+        if (method.getAnnotation(Deprecated.class) != null)
+          continue;
+        method = desc.getWriteMethod();
+        if (method.getAnnotation(Deprecated.class) != null)
+          continue;
+      }
+
       cls   = desc.getReadMethod().getReturnType();
       name  = desc.getDisplayName();
       flag  = OptionUtils.displayNameToFlag(name);
@@ -283,6 +317,9 @@ public class DefaultProcessor
     nested.setFloating(0.456);
     nested.setIntegral(1234);
 
+    SimpleDeprecated sdep = new SimpleDeprecated();
+    sdep.setEightBit((byte) 6);
+
     DefaultProcessor processor = new DefaultProcessor();
     processor.setTraverser(new All());
     String cmdline;
@@ -300,5 +337,15 @@ public class DefaultProcessor
     Nested nestedNew = (Nested) processor.fromCommandline(cmdline);
     cmdline = processor.toCommandline(nestedNew);
     System.out.println("-to and from commandline:\n" + cmdline);
+
+    System.out.println("\nSimple/deprecated (no check)");
+    cmdline = processor.toCommandline(sdep);
+    System.out.println("-initial commandline:\n" + cmdline);
+
+    processor.setSkipDeprecated(true);
+
+    System.out.println("\nSimple/deprecated (with check)");
+    cmdline = processor.toCommandline(sdep);
+    System.out.println("-initial commandline:\n" + cmdline);
   }
 }
