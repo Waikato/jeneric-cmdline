@@ -23,6 +23,8 @@ is possible as well and depends on the traversal policy
 * All -- traverse all objects
 * SpecificClasses -- traverses only the specified classes
 
+Used by [ADAMS](https://adams.cms.waikato.ac.nz/).
+
 
 ## Example
 
