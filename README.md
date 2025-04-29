@@ -96,6 +96,6 @@ Add the following dependency to your `pom.xml`:
     <dependency>
       <groupId>com.github.waikato</groupId>
       <artifactId>jeneric-cmdline</artifactId>
-      <version>0.0.6</version>
+      <version>0.0.7</version>
     </dependency>
 ```
