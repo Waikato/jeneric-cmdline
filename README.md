@@ -32,54 +32,60 @@ Used by [ADAMS](https://adams.cms.waikato.ac.nz/).
 import nz.ac.waikato.cms.jenericcmdline.DefaultProcessor;
 import nz.ac.waikato.cms.jenericcmdline.traversal.All;
 import nz.ac.waikato.cms.jenericcmdline.example.Simple;
+import nz.ac.waikato.cms.jenericcmdline.example.Simple.OneTwoThree;
 import nz.ac.waikato.cms.jenericcmdline.example.Nested;
 
-// set up simple object values
-Simple simple = new Simple();
-simple.setTruth(true);
-simple.setEightBit((byte) 7);
-simple.setSixteenBit((short) 42);
-simple.setThirtyTwoBit(314);
-simple.setSixtyFourBit(31415);
-simple.setFloatie(0.123f);
-simple.setQuadrupleHalf(123.456);
-simple.setMoreThanOneTruth(new boolean[]{true, false, true});
-simple.setManyInts(new int[]{1, 2, 3});
-simple.setSomeDoubles(new double[]{0.1, 0.2, 0.3});
-simple.setOneTwoThree(OneTwoThree.THREE);
-simple.setMany(new OneTwoThree[]{OneTwoThree.ONE, OneTwoThree.TWO});
+public class TestCmdline {
 
-// another simple object
-Simple simple2 = new Simple();
-simple2.setTruth(false);
-simple2.setEightBit((byte) 1);
-simple2.setFloatie(1.234f);
+  public static void main(String[] args) throws Exception {
+    // set up simple object values
+    Simple simple = new Simple();
+    simple.setTruth(true);
+    simple.setEightBit((byte) 7);
+    simple.setSixteenBit((short) 42);
+    simple.setThirtyTwoBit(314);
+    simple.setSixtyFourBit(31415);
+    simple.setFloatie(0.123f);
+    simple.setQuadrupleHalf(123.456);
+    simple.setMoreThanOneTruth(new boolean[]{true, false, true});
+    simple.setManyInts(new int[]{1, 2, 3});
+    simple.setSomeDoubles(new double[]{0.1, 0.2, 0.3});
+    simple.setOneTwoThree(OneTwoThree.THREE);
+    simple.setMany(new OneTwoThree[]{OneTwoThree.ONE, OneTwoThree.TWO});
 
-// object with other nested, non-primitive objects
-Nested nested = new Nested();
-nested.setSimple(simple);
-nested.setSimpleArray(new Simple[]{new Simple(), simple2});
-nested.setFloating(0.456);
-nested.setIntegral(1234);
+    // another simple object
+    Simple simple2 = new Simple();
+    simple2.setTruth(false);
+    simple2.setEightBit((byte) 1);
+    simple2.setFloatie(1.234f);
 
-// cmdline generation and parsing
-DefaultProcessor processor = new DefaultProcessor();
-processor.setTraverser(new All())
-String cmdline;
+    // object with other nested, non-primitive objects
+    Nested nested = new Nested();
+    nested.setSimple(simple);
+    nested.setSimpleArray(new Simple[]{new Simple(), simple2});
+    nested.setFloating(0.456);
+    nested.setIntegral(1234);
 
-System.out.println("\nSimple");
-cmdline = processor.toCommandline(simple);
-System.out.println("-initial commandline:\n" + cmdline);
-Simple simpleNew = (Simple) processor.fromCommandline(cmdline);
-cmdline = processor.toCommandline(simpleNew);
-System.out.println("-to and from commandline:\n" + cmdline);
+    // cmdline generation and parsing
+    DefaultProcessor processor = new DefaultProcessor();
+    processor.setTraverser(new All());
+    String cmdline;
 
-System.out.println("\nNested");
-cmdline = processor.toCommandline(nested);
-System.out.println("-initial commandline:\n" + cmdline);
-Nested nestedNew = (Nested) processor.fromCommandline(cmdline);
-cmdline = processor.toCommandline(nestedNew);
-System.out.println("-to and from commandline:\n" + cmdline);
+    System.out.println("\nSimple");
+    cmdline = processor.toCommandline(simple);
+    System.out.println("-initial commandline:\n" + cmdline);
+    Simple simpleNew = (Simple) processor.fromCommandline(cmdline);
+    cmdline = processor.toCommandline(simpleNew);
+    System.out.println("-to and from commandline:\n" + cmdline);
+
+    System.out.println("\nNested");
+    cmdline = processor.toCommandline(nested);
+    System.out.println("-initial commandline:\n" + cmdline);
+    Nested nestedNew = (Nested) processor.fromCommandline(cmdline);
+    cmdline = processor.toCommandline(nestedNew);
+    System.out.println("-to and from commandline:\n" + cmdline);
+  }
+}
 ```
 
 ## Maven
