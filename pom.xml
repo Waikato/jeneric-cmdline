@@ -5,7 +5,7 @@
 
   <groupId>com.github.waikato</groupId>
   <artifactId>jeneric-cmdline</artifactId>
-  <version>0.0.7</version>
+  <version>0.0.8-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <parent>
@@ -60,7 +60,7 @@
     <connection>scm:git:ssh://git@github.com/waikato/jeneric-cmdline</connection>
     <developerConnection>scm:git:ssh://git@github.com/waikato/jeneric-cmdline</developerConnection>
     <url>https://github.com/waikato/jeneric-cmdline</url>
-    <tag>jeneric-cmdline-0.0.7</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <build>
